@@ -62,14 +62,18 @@ train = optimizer.minimize(cross_entropy)
 # CREATE SESSION
 init = tf.global_variables_initializer()
 
+saver = tf.train.Saver()
+
 print("Training Model...")
 
 start = time.time()
 with tf.Session() as sess:
     sess.run(init)
+    print(".")
     for step in range(1000):
         sess.run(train,feed_dict={x:x_train,y_true:y_train})
-        print(".")
+    #Save Model
+    save_path = saver.save(sess, "/saved_models/one_layer_model.ckpt")
 
     #Evaluate Model
     correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_true,1))
