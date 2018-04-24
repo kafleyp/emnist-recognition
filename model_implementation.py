@@ -73,7 +73,7 @@ with tf.Session() as sess:
     for step in range(1000):
         sess.run(train,feed_dict={x:x_train,y_true:y_train})
     #Save Model
-    save_path = saver.save(sess, "/saved_models/one_layer_model.ckpt")
+    save_path = saver.save(sess, "saved_models/one_layer_model.ckpt")
 
     #Evaluate Model
     correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_true,1))
