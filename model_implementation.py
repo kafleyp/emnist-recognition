@@ -27,6 +27,8 @@ test_labels = y_test
 x_train /= 255
 x_test /= 255
 
+#tf.summary.image('input',x_train)
+
 # reshape using matlab order
 x_train = x_train.reshape(x_train.shape[0], 784, order="A")
 x_test = x_test.reshape(x_test.shape[0], 784, order="A")
@@ -68,18 +70,20 @@ print("Training Model...")
 
 start = time.time()
 with tf.Session() as sess:
+
     sess.run(init)
     print(".")
-    for step in range(1000):
+    for step in range(10):
         sess.run(train,feed_dict={x:x_train,y_true:y_train})
+
     #Save Model
     save_path = saver.save(sess, "saved_models/one_layer_model.ckpt")
 
     #Evaluate Model
     correct_prediction = tf.equal(tf.argmax(y,1), tf.argmax(y_true,1))
     acc = tf.reduce_mean(tf.cast(correct_prediction,tf.float32))
-    print(sess.run(acc,feed_dict={x:x_test,y_true:y_test}))
+    print("Model Accuracy: ", sess.run(acc,feed_dict={x:x_test,y_true:y_test}))
 end = time.time()
 
 time_elapsed = end - start
-print("Time Elapsed: " + str(time_elapsed/60) + "minutes")
+print("Time Elapsed: " + str(time_elapsed/60) + " minutes")
